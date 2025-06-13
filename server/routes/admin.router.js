@@ -2,6 +2,7 @@ const express = require('express')
 const {adminLogIn, adminLogOut} = require('../controllers/admin.controller');
 const {createLocation, deleteLocation, getLocations} = require('../controllers/location.controller');
 const {createZone, deleteZone, getZonesByLocation} = require('../controllers/zone.controller');
+const {getBookings, getBookingsByZone, updateBooking, deleteBooking} = require('../controllers/booking.controller');
 const router = express.Router()
 const  {isAdmin} = require('../middelware/admin.middelware');
 
@@ -12,7 +13,12 @@ router.post('/zone', isAdmin, createZone);
 
 router.get('/zones/:locationId', isAdmin, getZonesByLocation);
 router.get('/locations', isAdmin, getLocations);
+router.get('/bookings', isAdmin, getBookings);
+router.get('/bookings/zone/:zoneId', isAdmin, getBookingsByZone);
+
+router.put('/booking/:id', isAdmin, updateBooking);
 
 router.delete('/zone/:id', isAdmin, deleteZone);
+router.delete('/booking/:id', isAdmin, deleteBooking);
 router.delete('/location/:id', isAdmin, deleteLocation);
 module.exports = router;

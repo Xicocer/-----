@@ -25,25 +25,26 @@ model Location {
 }
 
 model Zone {
-  id          Int      @id @default(autoincrement())
+  id          Int       @id @default(autoincrement())
   name        String
   locationId  Int
-  location    Location @relation(fields: [locationId], references: [id])
-  bookings    Booking[]
-  createdAt   DateTime @default(now())
+  location    Location  @relation(fields: [locationId], references: [id])
+  bookings    Booking[] @relation("BookingZones")
+  createdAt   DateTime  @default(now())
 
   @@unique([name, locationId])
 }
+
 model Booking {
-  id          Int      @id @default(autoincrement())
+  id          Int       @id @default(autoincrement())
   email       String
   phone       String
   name        String
-  zoneId      Int
+  zones       Zone[]    @relation("BookingZones")
   startTime   DateTime
   endTime     DateTime
-  status      String   @default("pending") // pending, confirmed, cancelled
-  zone        Zone     @relation(fields: [zoneId], references: [id])
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  status      String    @default("pending")
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 }
+
