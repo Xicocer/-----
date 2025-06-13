@@ -4,6 +4,7 @@ const morgan = require('morgan');
 const session = require('express-session');
 const adminRoutes = require('./routes/admin.router');
 require('dotenv').config();
+const path = require('path');
 
 const PORT = process.env.PORT || 5000;
 const app = express();
@@ -25,6 +26,7 @@ app.use(session({
   },
 }));
 
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use(express.json());
 app.use('/admin', adminRoutes);
 

@@ -4,3 +4,5 @@ function isAdmin (req, res, next) {
     }
     res.status(403).json({ message: 'Доступ только для админов' });
 }
+
+module.exports = { isAdmin };

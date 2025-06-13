@@ -17,6 +17,8 @@ datasource db {
 model Location {
   id        Int   @id @default(autoincrement())
   name      String @unique
+  description String
+  imageUrl  String?
   address   String
   zones     Zone[]
   createdAt DateTime @default(now()) 
