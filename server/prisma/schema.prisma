@@ -14,17 +14,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id        Int   @id @default(autoincrement())
-  email     String   @unique
-  phone     String   @unique
-  name      String?
-  password  String
-  role      String   @default("user") // user, admin
-  bookings Booking[]
-  createdAt DateTime @default(now())
-}
-
 model Location {
   id        Int   @id @default(autoincrement())
   name      String @unique
@@ -45,12 +34,13 @@ model Zone {
 }
 model Booking {
   id          Int      @id @default(autoincrement())
-  userId      Int
+  email       String
+  phone       String
+  name        String
   zoneId      Int
   startTime   DateTime
   endTime     DateTime
   status      String   @default("pending") // pending, confirmed, cancelled
-  user        User     @relation(fields: [userId], references: [id])
   zone        Zone     @relation(fields: [zoneId], references: [id])
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
