@@ -15,7 +15,7 @@
 <style scoped>
 .about-section {
   padding: 48px 24px;
-  background-color: #f5f5f5;
+  background-color: #fff3e0;
   background-position: 0% 80%;
   background-size: contain;
   background-image: url('@/assets/бульбазавр.png');

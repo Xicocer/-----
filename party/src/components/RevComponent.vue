@@ -60,9 +60,9 @@ const reviews = [
 <style scoped>
 .reviews-section {
   padding: 48px 24px;
-  background-color: #f5f5f5;
-  background-position: 100% 80%;
-  background-image: url('@/assets/пикачу.png');
+  background-color: #fff3e0;
+  background-position: 125% 80%;
+  background-image: url('@/assets/флареон.png');
   text-align: center;
   font-family: 'Fredoka', sans-serif;
 }
@@ -80,7 +80,7 @@ const reviews = [
   font-size: 2rem;
   font-weight: bold;
   margin-bottom: 32px;
-  color: #2a2a2a;
+  color: #e65100;
   font-family: 'Fredoka', sans-serif;
 }
 

@@ -3,6 +3,8 @@
   <AlgSection />
   <AboutComponent />
   <RevComponent />
+  <SellCompornt />
+  <PokeFooter />
 </template>
 
 <script setup>

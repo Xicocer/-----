@@ -59,7 +59,7 @@
     .booking-section {
         position: relative;
         padding: 48px 24px;
-        background-color: #f5f5f5;
+        background-color: #fff3e0;
         background-image: url('@/assets/чармандер.png');
         background-position: 110% 50%;
         background-size: contain;
@@ -71,7 +71,7 @@
   font-size: 2rem;
   font-weight: bold;
   margin-bottom: 32px;
-  color: #2a2a2a;
+  color: #e65100;
   font-family: 'Fredoka', sans-serif;
 }
 
