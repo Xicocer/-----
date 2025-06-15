@@ -29,14 +29,18 @@ const createLocation = async (req, res) => {
 }
 
 const getLocations = async (req, res) => {
-    try {
-        const locations = await prisma.location.findMany();
-        res.status(200).json(locations);
-    } catch (error) {
-        console.error('Ошибка при получении локаций:', error);
-        res.status(500).json({ error: 'Ошибка при получении локаций' });
-    }
-}
+  try {
+    const locations = await prisma.Location.findMany({
+      orderBy: {
+        createdAt: 'desc'
+      }
+    });
+    res.status(200).json(locations);
+  } catch (error) {
+    console.error('Ошибка при получении локаций:', error);
+    res.status(500).json({ error: 'Ошибка при получении локаций' });
+  }
+};
 
 const deleteLocation = async (req, res) => {
     try {

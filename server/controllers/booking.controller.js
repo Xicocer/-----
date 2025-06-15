@@ -3,9 +3,9 @@ const prisma = new PrismaClient();
 
 const createBooking = async (req, res) => {
   try {
-    const { email, phone, name, zoneId, startTime, endTime } = req.body;
+    const { email, phone, name, zoneId, startTime, endTime, visitors } = req.body;
 
-    if (!email || !phone || !name || !zoneId || !startTime || !endTime) {
+    if (!email || !phone || !name || !zoneId || !startTime || !endTime || !visitors) {
       return res.status(400).json({ error: 'Заполните все обязательные поля' });
     }
 
@@ -17,6 +17,7 @@ const createBooking = async (req, res) => {
         zoneId: Number(zoneId),
         startTime: new Date(startTime),
         endTime: new Date(endTime),
+        visitors: Number(visitors),
         status: 'Обрабатывается', 
       },
     });

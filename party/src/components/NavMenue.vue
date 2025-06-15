@@ -7,11 +7,14 @@
 
     <v-spacer />
 
-    <v-btn class="nav-btn"  text="Акции" />
-    <v-btn class="nav-btn"  text="Поиск" />
-    <v-btn class="nav-btn"  text="Бронирование" />
+    <RouterLink to="/" class="links"><v-btn class="nav-btn">Главная</v-btn></RouterLink>
+    <RouterLink to="/search" class="links"><v-btn class="nav-btn">Поиск</v-btn></RouterLink>
   </v-app-bar>
 </template>
+
+<script setup>
+import {RouterLink} from 'vue-router'
+</script>
 
 <style scoped>
 .navbar {
@@ -34,5 +37,10 @@
 .nav-btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+}
+
+.links {
+  color: white;
+  text-decoration: none;
 }
 </style>

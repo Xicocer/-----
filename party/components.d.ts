@@ -12,6 +12,7 @@ declare module 'vue' {
     AlgSection: typeof import('./src/components/AlgSection.vue')['default']
     AppFooter: typeof import('./src/components/AppFooter.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
+    LocationCard: typeof import('./src/components/LocationCard.vue')['default']
     NavMenue: typeof import('./src/components/NavMenue.vue')['default']
     PokeFooter: typeof import('./src/components/PokeFooter.vue')['default']
     RevComponent: typeof import('./src/components/RevComponent.vue')['default']
