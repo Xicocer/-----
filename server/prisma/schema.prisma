@@ -41,8 +41,8 @@ model Booking {
   phone       String
   name        String
   zones       Zone[]    @relation("BookingZones")
-  startTime   DateTime
-  endTime     DateTime
+  startTime   String
+  endTime     String
   visitors    Int
   status      String    @default("pending")
   createdAt   DateTime  @default(now())

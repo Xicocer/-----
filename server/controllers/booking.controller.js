@@ -14,9 +14,11 @@ const createBooking = async (req, res) => {
         email,
         phone,
         name,
-        zoneId: Number(zoneId),
-        startTime: new Date(startTime),
-        endTime: new Date(endTime),
+        zones: {
+          connect: { id: Number(zoneId) }
+        },
+        startTime,
+        endTime,
         visitors: Number(visitors),
         status: 'Обрабатывается', 
       },
