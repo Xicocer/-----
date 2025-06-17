@@ -65,9 +65,44 @@ const deleteLocation = async (req, res) => {
     }
 }
 
+const locationList = async (req, res) => {
+    try{
+        const { page = 1, limit = 5, type } = req.query
+        const skip = (parseInt(page) - 1) * parseInt(limit)
+        const take = parseInt(limit)
+
+        const where = {}
+        if (type) where.type = type
+
+        const [locations, total] = await Promise.all([
+            prisma.Location.findMany(),
+            prisma.Location.count({ where })
+        ])
+
+        res.status(200).json({
+            success: true,
+            data: locations,
+            meta: {
+                total,
+                page: parseInt(page),
+                limit: take,
+                totalPages: Math.ceil(total / take)
+            }
+        })
+    }catch (error) {
+        console.error('Ошибка получения списка локаций: ', error)
+        res.status(500).json({
+            success: false,
+            massage: 'Ошибка получения списка локаций', 
+            error: process.env.NODE_ENV === 'development' ? error.message : undefined
+        })
+    }
+}
+
 module.exports = {
     createLocation,
     getLocations,
-    deleteLocation
+    deleteLocation,
+    locationList
 };
 

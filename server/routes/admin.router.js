@@ -1,6 +1,6 @@
 const express = require('express')
 const {adminLogIn, adminLogOut} = require('../controllers/admin.controller');
-const {createLocation, deleteLocation, getLocations} = require('../controllers/location.controller');
+const {createLocation, deleteLocation, locationList} = require('../controllers/location.controller');
 const {createZone, deleteZone, getZonesByLocation} = require('../controllers/zone.controller');
 const {getBookings, getBookingsByZone, updateBooking, deleteBooking} = require('../controllers/booking.controller');
 const router = express.Router()
@@ -12,7 +12,7 @@ router.post('/logout', isAdmin, adminLogOut);
 router.post('/zone', isAdmin, createZone);
 
 router.get('/zones/:locationId', isAdmin, getZonesByLocation);
-router.get('/locations', isAdmin, getLocations);
+router.get('/locations', isAdmin, locationList);
 router.get('/bookings', isAdmin, getBookings);
 router.get('/bookings/zone/:zoneId', isAdmin, getBookingsByZone);
 

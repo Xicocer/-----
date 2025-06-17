@@ -9,8 +9,14 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     AboutComponent: typeof import('./src/components/AboutComponent.vue')['default']
+    AddLocation: typeof import('./src/components/AddLocation.vue')['default']
+    AddZones: typeof import('./src/components/AddZones.vue')['default']
+    AdminBooking: typeof import('./src/components/AdminBooking.vue')['default']
     AlgSection: typeof import('./src/components/AlgSection.vue')['default']
     AppFooter: typeof import('./src/components/AppFooter.vue')['default']
+    DeleteAnimal: typeof import('./src/components/DeleteLocation.vue')['default']
+    DeleteLocation: typeof import('./src/components/DeleteLocation.vue')['default']
+    DeleteZones: typeof import('./src/components/DeleteZones.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     LocationCard: typeof import('./src/components/LocationCard.vue')['default']
     NavMenue: typeof import('./src/components/NavMenue.vue')['default']
