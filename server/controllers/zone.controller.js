@@ -33,10 +33,14 @@ const createZone = async (req, res) => {
 
 const getZonesByLocation = async (req, res) => {
   try {
-    const { locationId } = req.params;
+    const locationId = Number(req.params.locationId);
+
+    if (isNaN(locationId)) {
+      return res.status(400).json({ error: 'Некорректный ID локации' });
+    }
 
     const zones = await prisma.zone.findMany({
-      where: { locationId: Number(locationId) },
+      where: { locationId },
     });
 
     res.status(200).json(zones);

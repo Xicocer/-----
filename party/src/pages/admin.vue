@@ -80,15 +80,9 @@ const menuItems = [
   },
   { 
     id: 'zones', 
-    title: 'Создание зон для локаций', 
+    title: 'Управление зонами', 
     component: AddZones,
     icon: 'mdi-book-marker'
-  },
-  { 
-    id: 'delzones', 
-    title: 'Удаление зон', 
-    component: DeleteZones,
-    icon: 'mdi-delete'
   },
   { 
     id: 'bookings', 

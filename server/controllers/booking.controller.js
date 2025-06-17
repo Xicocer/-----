@@ -33,15 +33,34 @@ const createBooking = async (req, res) => {
 
 const getBookings = async (req, res) => {
   try {
-    const bookings = await prisma.booking.findMany({
-      orderBy: { startTime: 'asc' },
-    });
-    res.status(200).json(bookings);
+    const page = parseInt(req.query.page) || 1
+    const limit = parseInt(req.query.limit) || 10
+    const skip = (page - 1) * limit
+
+    const [bookings, total] = await Promise.all([
+      prisma.booking.findMany({
+        skip,
+        take: limit,
+        orderBy: { startTime: 'asc' },
+      }),
+      prisma.booking.count(),
+    ])
+
+    res.status(200).json({
+      success: true,
+      data: bookings,
+      meta: {
+        total,
+        page,
+        limit,
+        pages: Math.ceil(total / limit),
+      },
+    })
   } catch (error) {
-    console.error('Ошибка при получении бронирований:', error);
-    res.status(500).json({ error: 'Ошибка сервера при получении бронирований' });
+    console.error('Ошибка при получении бронирований:', error)
+    res.status(500).json({ error: 'Ошибка сервера при получении бронирований' })
   }
-};
+}
 
 const getBookingsByZone = async (req, res) => {
   try {
