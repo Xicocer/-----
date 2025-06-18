@@ -9,6 +9,7 @@
 
     <RouterLink to="/" class="links"><v-btn class="nav-btn">Главная</v-btn></RouterLink>
     <RouterLink to="/search" class="links"><v-btn class="nav-btn">Поиск</v-btn></RouterLink>
+    <RouterLink to="/login" class="links"><v-btn class="nav-btn">Панель администратора</v-btn></RouterLink>
   </v-app-bar>
 </template>
 

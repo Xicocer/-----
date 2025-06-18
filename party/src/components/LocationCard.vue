@@ -2,11 +2,12 @@
   <v-col cols="12" sm="6" md="4">
     <v-card class="pa-4" color="#FFECB3" elevation="4">
       <v-img
-        :src="location.image || 'https://via.placeholder.com/400x200'"
+        :src="location.imageUrl ? `http://localhost:5000${location.imageUrl}` : 'https://dummyimage.com/400x200/ffcc00/000000&text=No+Image'"
         height="180"
         class="rounded"
         cover
       />
+      <p>{{ location.image }} </p> 
       <v-card-title class="text-h6 mt-2">{{ location.name }}</v-card-title>
       <v-card-subtitle>{{ location.address }}</v-card-subtitle>
       <v-card-text>{{ location.description }}</v-card-text>

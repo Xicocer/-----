@@ -10,7 +10,7 @@ const createLocation = async (req, res) => {
             return res.status(400).json({ error: 'Не все поля заполнены' });
         }
 
-        const imageUrl = req.file ? `/uploads/location${req.file.filename}` : null;
+        const imageUrl = req.file ? `/uploads/locations/${req.file.filename}` : null;
 
         const newLocation = await prisma.location.create({
             data: {
@@ -23,6 +23,11 @@ const createLocation = async (req, res) => {
 
         res.status(201).json(newLocation);
     }catch (error) {
+
+        if (error.code === 'P2002') {
+            return res.status(409).json({ error: 'Локация с таким названием уже существует' });
+         }
+
         console.error('Ошибка при создании локации:', error);
         res.status(500).json({ error: 'Ошибка при создании локации' });
     }

@@ -11,6 +11,7 @@
       class="mb-6 search-header text-h6 search-input"
       color="orange-darken-2"
     />
+    
 
     <v-row dense>
       <LocationCard

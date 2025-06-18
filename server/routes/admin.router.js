@@ -3,11 +3,12 @@ const {adminLogIn, adminLogOut} = require('../controllers/admin.controller');
 const {createLocation, deleteLocation, locationList} = require('../controllers/location.controller');
 const {createZone, deleteZone, getZonesByLocation} = require('../controllers/zone.controller');
 const {getBookings, getBookingsByZone, updateBooking, deleteBooking} = require('../controllers/booking.controller');
+const upload = require('../multer/locationImage');
 const router = express.Router()
 const  {isAdmin} = require('../middelware/admin.middelware');
 
 router.post('/login', adminLogIn);
-router.post('/location', isAdmin, createLocation);
+router.post('/location', isAdmin, upload.single('imageUrl'), createLocation);
 router.post('/logout', isAdmin, adminLogOut);
 router.post('/zone', isAdmin, createZone);
 
