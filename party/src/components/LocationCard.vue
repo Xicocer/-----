@@ -69,7 +69,7 @@
 
               <v-card-actions class="mt-4">
                 <v-spacer />
-                <v-btn text @click="dialog = false">Отмена</v-btn>
+                <v-btn text @click="dialog = false" color="red darken-2">Отмена</v-btn>
                 <v-btn color="orange darken-2" type="submit">Забронировать</v-btn>
               </v-card-actions>
             </v-form>

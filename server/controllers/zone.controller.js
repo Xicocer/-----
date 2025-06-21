@@ -3,7 +3,7 @@ const prisma = new PrismaClient();
 
 const createZone = async (req, res) => {
   try {
-    const { name, locationId } = req.body;
+    const { name, locationId, price } = req.body;
 
     if (!name || !locationId) {
       return res.status(400).json({ error: 'Не все поля заполнены' });
@@ -20,6 +20,7 @@ const createZone = async (req, res) => {
     const newZone = await prisma.zone.create({
       data: {
         name,
+        price: parseFloat(price),
         locationId: Number(locationId),
       },
     });

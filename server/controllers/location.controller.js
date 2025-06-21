@@ -4,7 +4,7 @@ const path = require('path');
 
 const createLocation = async (req, res) => {
     try{
-        const { name, description, address } = req.body;
+        const { name, description, address, price } = req.body;
 
         if (!name || !description || !address) {
             return res.status(400).json({ error: 'Не все поля заполнены' });
@@ -17,6 +17,7 @@ const createLocation = async (req, res) => {
                 name,
                 description,
                 address,
+                price: parseFloat(price),
                 imageUrl
             }
         });

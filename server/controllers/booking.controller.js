@@ -3,28 +3,55 @@ const prisma = new PrismaClient();
 
 const createBooking = async (req, res) => {
   try {
-    const { email, phone, name, zoneId, startTime, endTime, visitors } = req.body;
+    const { email, phone, name, zoneIds, startTime, endTime, date, visitors } = req.body;
 
-    if (!email || !phone || !name || !zoneId || !startTime || !endTime || !visitors) {
+    if (!email || !phone || !name || !zoneIds || !startTime || date || !endTime || !visitors) {
       return res.status(400).json({ error: 'Заполните все обязательные поля' });
     }
 
+    if (!Array.isArray(zoneIds) || zoneIds.length === 0) {
+      return res.status(400).json({ error: 'Выберите хотя бы одну зону' });
+    }
+
+    // Получаем выбранные зоны с локацией и ценами
+    const zones = await prisma.zone.findMany({
+      where: { id: { in: zoneIds.map(Number) } },
+      include: { location: true }
+    });
+
+    if (zones.length === 0) {
+      return res.status(400).json({ error: 'Зоны не найдены' });
+    }
+
+    // Проверяем, что все зоны принадлежат одной локации
+    const locationIds = new Set(zones.map(z => z.locationId));
+    if (locationIds.size > 1) {
+      return res.status(400).json({ error: 'Все зоны должны быть из одной локации' });
+    }
+
+    const locationPrice = Number(zones[0].location.price);
+    const zonesPrice = zones.reduce((sum, z) => sum + Number(z.price), 0);
+    const total = locationPrice + zonesPrice;
+
+    // Создаём бронирование
     const booking = await prisma.booking.create({
       data: {
         email,
         phone,
         name,
-        zones: {
-          connect: { id: Number(zoneId) }
-        },
         startTime,
         endTime,
         visitors: Number(visitors),
-        status: 'Обрабатывается', 
-      },
+        status: 'Обрабатывается',
+        total,
+        zones: {
+          connect: zoneIds.map(id => ({ id: Number(id) }))
+        }
+      }
     });
 
     res.status(201).json(booking);
+
   } catch (error) {
     console.error('Ошибка при создании бронирования:', error);
     res.status(500).json({ error: 'Ошибка сервера при создании бронирования' });

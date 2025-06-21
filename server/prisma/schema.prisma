@@ -15,37 +15,41 @@ datasource db {
 }
 
 model Location {
-  id        Int   @id @default(autoincrement())
-  name      String @unique
-  description String @db.Text
-  imageUrl  String?
-  address   String
-  zones     Zone[]
-  createdAt DateTime @default(now()) 
+  id          Int      @id @default(autoincrement())
+  name        String   @unique
+  description String   @db.Text
+  imageUrl    String?  @db.Text
+  address     String
+  price       Decimal  @db.Decimal(5, 3)
+  zoneImg     String?  @db.Text
+  zones       Zone[]
+  createdAt   DateTime @default(now())
 }
 
 model Zone {
-  id          Int       @id @default(autoincrement())
-  name        String
-  locationId  Int
-  location    Location  @relation(fields: [locationId], references: [id])
-  bookings    Booking[] @relation("BookingZones")
-  createdAt   DateTime  @default(now())
+  id         Int       @id @default(autoincrement())
+  name       String
+  locationId Int
+  price      Decimal   @db.Decimal(5, 3)
+  location   Location  @relation(fields: [locationId], references: [id])
+  bookings   Booking[] @relation("BookingZones")
+  createdAt  DateTime  @default(now())
 
   @@unique([name, locationId])
 }
 
 model Booking {
-  id          Int       @id @default(autoincrement())
-  email       String
-  phone       String
-  name        String
-  zones       Zone[]    @relation("BookingZones")
-  startTime   String
-  endTime     String
-  visitors    Int
-  status      String    @default("pending")
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  id        Int      @id @default(autoincrement())
+  email     String
+  phone     String
+  name      String
+  zones     Zone[]   @relation("BookingZones")
+  startTime String
+  endTime   String
+  date      String   @db.Text
+  visitors  Int
+  status    String   @default("pending")
+  total     Decimal  @db.Decimal(5, 3)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
-

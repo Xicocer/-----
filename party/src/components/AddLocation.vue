@@ -22,6 +22,14 @@
             required
           />
 
+          <v-text-field
+            v-model="locationPrice"
+            type="number"
+            label="Аренда локации в денежках"
+            :rules="[v => !!v || 'Введите адрес локации']"
+            required
+          />
+
           <v-file-input
             v-model="imageFile"
             label="Изображение локации"
@@ -47,6 +55,7 @@ import axios from 'axios'
 const locationName = ref('')
 const locationDescription = ref('')
 const locationAddress = ref('')
+const locationPrice = ref('')
 const imageFile = ref(null)
 const error = ref('')
 const valid = ref(false)
@@ -63,6 +72,7 @@ async function addLocation() {
     formData.append('name', locationName.value)
     formData.append('description', locationDescription.value)
     formData.append('address', locationAddress.value)
+    formData.append('price', locationPrice.value)
     formData.append('imageUrl', imageFile.value)
 
     console.log('Отправляем данные на сервер:')
