@@ -11,6 +11,9 @@
       <v-card-title class="text-h6 mt-2">{{ location.name }}</v-card-title>
       <v-card-subtitle>{{ location.address }}</v-card-subtitle>
       <v-card-text>{{ location.description }}</v-card-text>
+      <v-card-text class="text-h6 font-weight-bold">
+        Цена: {{ location.price }} руб.
+      </v-card-text>
 
       <v-btn color="orange darken-2" class="mt-4" @click="dialog = true">
         Забронировать
@@ -25,6 +28,13 @@
               <v-text-field class="search-header" v-model="form.name" label="Ваше имя" required />
               <v-text-field class="search-header" v-model="form.email" label="Email" type="email" required />
               <v-text-field class="search-header" v-model="form.phone" label="Телефон" required />
+
+              <v-img
+                :src="location.zoneImg ? `http://localhost:5000${location.zoneImg}` : 'https://dummyimage.com/400x200/ffcc00/000000&text=No+Image'"
+                height="180"
+                class="rounded"
+                cover
+              />
 
               <!-- Мультиселект зон -->
               <v-select
@@ -90,6 +100,8 @@ const props = defineProps({
     required: true
   }
 })
+
+console.log('LocationCard props:', props.location.zoneImg)
 
 const dialog = ref(false)
 

@@ -39,6 +39,15 @@
             required
           />
 
+          <v-file-input
+            v-model="zoneFile"
+            label="План зоны"
+            accept="image/*"
+            prepend-icon="mdi-image"
+            :rules="[v => !!v || 'Выберите изображение']"
+            required
+          />
+
           <v-btn type="submit" :disabled="!valid" color="primary" block>Добавить</v-btn>
         </v-form>
 
@@ -57,6 +66,7 @@ const locationDescription = ref('')
 const locationAddress = ref('')
 const locationPrice = ref('')
 const imageFile = ref(null)
+const zoneFile = ref(null)
 const error = ref('')
 const valid = ref(false)
 const formRef = ref(null)
@@ -74,11 +84,15 @@ async function addLocation() {
     formData.append('address', locationAddress.value)
     formData.append('price', locationPrice.value)
     formData.append('imageUrl', imageFile.value)
+    formData.append('zoneImg', zoneFile.value)
 
     console.log('Отправляем данные на сервер:')
     console.log('Название:', locationName.value) 
     console.log('Описание:', locationDescription.value)
     console.log('Адрес:', locationAddress.value)
+    console.log('Цена:', locationPrice.value)
+    console.log('Изображение локации:', imageFile.value)
+    console.log('План зоны:', zoneFile.value)
 
     console.log(formData)
 

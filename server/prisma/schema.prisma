@@ -20,7 +20,7 @@ model Location {
   description String   @db.Text
   imageUrl    String?  @db.Text
   address     String
-  price       Decimal  @db.Decimal(5, 3)
+  price       Decimal  @db.Decimal(7, 2)
   zoneImg     String?  @db.Text
   zones       Zone[]
   createdAt   DateTime @default(now())
@@ -30,7 +30,7 @@ model Zone {
   id         Int       @id @default(autoincrement())
   name       String
   locationId Int
-  price      Decimal   @db.Decimal(5, 3)
+  price      Decimal   @db.Decimal(7, 2)
   location   Location  @relation(fields: [locationId], references: [id])
   bookings   Booking[] @relation("BookingZones")
   createdAt  DateTime  @default(now())
@@ -49,7 +49,7 @@ model Booking {
   date      String   @db.Text
   visitors  Int
   status    String   @default("pending")
-  total     Decimal  @db.Decimal(5, 3)
+  total     Decimal  @db.Decimal(7, 2)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

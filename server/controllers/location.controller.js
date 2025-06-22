@@ -3,36 +3,45 @@ const prisma = new PrismaClient();
 const path = require('path');
 
 const createLocation = async (req, res) => {
-    try{
-        const { name, description, address, price } = req.body;
+  try {
+    const { name, description, address, price } = req.body;
 
-        if (!name || !description || !address) {
-            return res.status(400).json({ error: 'Не все поля заполнены' });
-        }
-
-        const imageUrl = req.file ? `/uploads/locations/${req.file.filename}` : null;
-
-        const newLocation = await prisma.location.create({
-            data: {
-                name,
-                description,
-                address,
-                price: parseFloat(price),
-                imageUrl
-            }
-        });
-
-        res.status(201).json(newLocation);
-    }catch (error) {
-
-        if (error.code === 'P2002') {
-            return res.status(409).json({ error: 'Локация с таким названием уже существует' });
-         }
-
-        console.error('Ошибка при создании локации:', error);
-        res.status(500).json({ error: 'Ошибка при создании локации' });
+    if (!name || !description || !address || !price) {
+      return res.status(400).json({ error: 'Не все поля заполнены' });
     }
-}
+
+    const imageUrl = req.files?.imageUrl?.[0]
+      ? `/uploads/locations/${req.files.imageUrl[0].filename}`
+      : null;
+
+    const zoneImg = req.files?.zoneImg?.[0]
+      ? `/uploads/locations/${req.files.zoneImg[0].filename}`
+      : null;
+
+      console.log('Image URL:', imageUrl);
+      console.log('Zone Image URL:', zoneImg); 
+
+    const newLocation = await prisma.location.create({
+      data: {
+        name,
+        description,
+        address,
+        price: parseFloat(price),
+        imageUrl,
+        zoneImg 
+      }
+    });
+
+    res.status(201).json(newLocation);
+  } catch (error) {
+    if (error.code === 'P2002') {
+      return res.status(409).json({ error: 'Локация с таким названием уже существует' });
+    }
+
+    console.error('Ошибка при создании локации:', error);
+    res.status(500).json({ error: 'Ошибка при создании локации' });
+  }
+};
 
 const getLocations = async (req, res) => {
   try {

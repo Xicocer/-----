@@ -8,7 +8,15 @@ const router = express.Router()
 const  {isAdmin} = require('../middelware/admin.middelware');
 
 router.post('/login', adminLogIn);
-router.post('/location', isAdmin, upload.single('imageUrl'), createLocation);
+router.post(
+  '/location',
+  isAdmin,
+  upload.fields([
+    { name: 'imageUrl', maxCount: 1 }, 
+    { name: 'zoneImg', maxCount: 1 }
+  ]),
+  createLocation
+);
 router.post('/logout', isAdmin, adminLogOut);
 router.post('/zone', isAdmin, createZone);
 

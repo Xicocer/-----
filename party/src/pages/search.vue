@@ -35,6 +35,7 @@ const getLocations = async () => {
   try {
     const response = await axios.get('http://localhost:5000/user/locations')
     locations.value = response.data
+    console.log('Полученные локации:', locations.value)
   } catch (error) {
     console.error('Ошибка при получении локаций:', error)
   }
