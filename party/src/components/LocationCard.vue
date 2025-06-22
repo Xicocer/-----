@@ -25,9 +25,11 @@
           <v-card-title class="search-header">Бронирование: {{ location.name }}</v-card-title>
           <v-card-text>
             <v-form ref="bookingForm" @submit.prevent="submitBooking">
-              <v-text-field class="search-header" v-model="form.name" label="Ваше имя" required />
-              <v-text-field class="search-header" v-model="form.email" label="Email" type="email" required />
-              <v-text-field class="search-header" v-model="form.phone" label="Телефон" required />
+              <v-text-field class="search-header" v-model="form.name" label="Ваше имя" required clearable />
+              <v-text-field class="search-header" v-model="form.email" label="Email" placeholder="example@gmail.com" type="email" clearable required />
+              <v-text-field class="search-header" v-model="form.phone" label="Телефон" placeholder="+7 986 756 23 36" required clearable />
+              <v-text-field class="search-header" v-model="form.date" label="Дата" type="date" prepend-inner-icon="mdi-calendar" required />
+
 
               <v-img
                 :src="location.zoneImg ? `http://localhost:5000${location.zoneImg}` : 'https://dummyimage.com/400x200/ffcc00/000000&text=No+Image'"
@@ -74,8 +76,13 @@
                 label="Количество посетителей"
                 type="number"
                 min="1"
+                max="50"
                 required
               />
+
+              <v-card-text class="text-h6 font-weight-bold price-color">
+                Итого: {{ totalPrice }} ₽
+              </v-card-text>
 
               <v-card-actions class="mt-4">
                 <v-spacer />
@@ -93,6 +100,7 @@
 <script setup>
 import { ref, computed, watch } from 'vue'
 import axios from 'axios'
+import { da } from 'vuetify/locale'
 
 const props = defineProps({
   location: {
@@ -123,10 +131,10 @@ const form = ref({
   startTime: '',
   endTime: '',
   visitors: 1,
+  date: new Date().toISOString().split('T')[0] // Текущая дата в формате YYYY-MM-DD
 })
 
 const zones = ref([])
-console.log('Location:', props.location)
 
 // Подгрузка зон при открытии диалога
 watch(dialog, async (val) => {
@@ -136,7 +144,8 @@ watch(dialog, async (val) => {
       zones.value = response.data
       zones.value = zones.value.map(zone => ({
         id: zone.id,
-        name: zone.name
+        name:  `${zone.name} (${Number(zone.price)} ₽)`,
+        price: zone.price
       }))
       console.log('Зоны:', zones.value)
     } catch (error) {
@@ -156,6 +165,17 @@ watch(() => form.value.startTime, () => {
   form.value.endTime = ''
 })
 
+// Подсчет цены бронирования
+const totalPrice = computed(() => {
+  const locationPrice = Number(props.location.price) || 0
+
+  const selectedZones = zones.value.filter(zone => form.value.zoneIds.includes(zone.id))
+
+  const zonesSum = selectedZones.reduce((sum, zone) => sum + Number(zone.price), 0)
+
+  return locationPrice + zonesSum
+})
+
 // Отправка бронирования
 const submitBooking = async () => {
   if (
@@ -168,17 +188,19 @@ const submitBooking = async () => {
   }
 
   try {
-    for (const zoneId of form.value.zoneIds) {
+
       await axios.post('http://localhost:5000/user/booking', {
         name: form.value.name,
         email: form.value.email,
         phone: form.value.phone,
-        zoneId,
+        zoneIds: form.value.zoneIds,
         startTime: form.value.startTime,
         endTime: form.value.endTime,
+        date: form.value.date,
         visitors: form.value.visitors,
+        total: totalPrice.value
       })
-    }
+    
     alert('Бронирование успешно создано')
     dialog.value = false
     form.value = {
@@ -205,5 +227,9 @@ const submitBooking = async () => {
 .search-header {
   color: #3E2723;
   font-family: 'Fredoka', sans-serif;
+}
+
+.price-color {
+  color: #3E2723;
 }
 </style>

@@ -26,6 +26,15 @@
         :disabled="!selectedLocation"
       />
 
+      <v-text-field
+        v-model="zonePrice"
+        type="number"
+        label="Цена аренды зоны"
+        variant="outlined"
+        density="compact"
+        class="mt-4"
+        :disabled="!selectedLocation"
+      />
       <v-btn
         :disabled="!selectedLocation || !zoneName"
         color="primary"
@@ -86,7 +95,7 @@ const isLoading = ref(false)
 
 const selectedLocation = ref(null)
 const zoneName = ref('')
-
+const zonePrice = ref('')
 const selectedLocationForDelete = ref(null)
 const zones = ref([])
 const selectedZoneId = ref(null)
@@ -129,7 +138,8 @@ const submitZone = async () => {
   try {
     await axios.post('http://localhost:5000/admin/zone', {
       locationId: selectedLocation.value.id,
-      name: zoneName.value
+      name: zoneName.value,
+      price: zonePrice.value 
     }, { withCredentials: true })
 
     zoneName.value = ''

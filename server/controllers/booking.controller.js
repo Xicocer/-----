@@ -3,9 +3,11 @@ const prisma = new PrismaClient();
 
 const createBooking = async (req, res) => {
   try {
+    console.log('Создание бронирования с данными:', req.body);
+
     const { email, phone, name, zoneIds, startTime, endTime, date, visitors } = req.body;
 
-    if (!email || !phone || !name || !zoneIds || !startTime || date || !endTime || !visitors) {
+    if (!email || !phone || !name || !zoneIds || !startTime || !endTime || !visitors) {
       return res.status(400).json({ error: 'Заполните все обязательные поля' });
     }
 
@@ -46,7 +48,8 @@ const createBooking = async (req, res) => {
         total,
         zones: {
           connect: zoneIds.map(id => ({ id: Number(id) }))
-        }
+        },
+        date,
       }
     });
 
@@ -54,6 +57,7 @@ const createBooking = async (req, res) => {
 
   } catch (error) {
     console.error('Ошибка при создании бронирования:', error);
+    console.error('Ответ сервера:', error.response?.data);
     res.status(500).json({ error: 'Ошибка сервера при создании бронирования' });
   }
 };
